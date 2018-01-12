@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" th:src="@{/global/jquery-1.8.3.js}"></script>
+</head>
+<body>
+<a th:href="@{/registry}">注册</a>
+<p th:if="${param.logout}">已成功注销</p>
+<p th:if="${param.error}">登陆失败，请重试</p>
+<form th:action="@{/login}" action="/login" method="post">
+<input type="text" name="username" placeholder=""/>
+<input type="password" name="password" placeholder=""/>
+<input type="submit" />
+</form>
+<h2></h2>
+
+</body>
+</html>

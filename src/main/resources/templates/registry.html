@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+function eb() {
+	var pattern =/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/i;
+	var v1=document.getElementById("email").value;
+	var vs=document.getElementById("spanEmail");
+	vs.style.display="inline";
+	if(v1==''){
+		vs.innerText="邮箱不能为空";
+		vs.style.color="red";
+		vs.focus();
+		return false;
+	}else if (!pattern.test(v1)){
+		vs.innerText="邮箱格式不正确";
+		vs.style.color="red";
+		vs.focus();
+		return false;
+	}else{
+		vs.style.display="none";
+		return true;
+	} 
+}
+function en() {
+	var v1=document.getElementById("user").value;
+	var vs=document.getElementById("spanName");
+	vs.style.display="inline";
+	if(v1==''){
+		vs.innerText="用户名不能为空";
+		vs.style.color="red";
+		vs.focus();
+		return false;
+	}else{	
+		var xmlhttp=new XMLHttpRequest();
+		xmlhttp.open("get","/unv?name="+v1,true);  
+		xmlhttp.onreadystatechange = function(){
+			if(xmlhttp.readyState==4){
+				if(xmlhttp.status==200){
+					var re=xmlhttp.responseText;
+					alert(re);
+					if(re=="false"){
+						vs.innerText="用户名已存在";
+						vs.style.color="red";
+						vs.focus();
+						return false;
+					}					
+				}else if(xmlhttp.status==404){
+					alert("找不到资源");
+				}				
+			}
+		}
+		xmlhttp.send();		
+		vs.style.display="none";
+		return true;
+	} 
+}
+function ep1() {
+	var v1=document.getElementById("pwd1").value;
+	var vs=document.getElementById("spanPwd1");
+	vs.style.display="inline";
+	if(v1==''){
+		vs.innerText="密码不能为空";
+		vs.style.color="red";
+		vs.focus();
+		return false;
+	}else if (v1.length<6){
+		vs.innerText="密码长度不能小于6位";
+		vs.style.color="red";
+		vs.focus();
+		return false;
+	}else{
+		vs.style.display="none";
+		return true;
+	}
+}
+function ep2() {
+	var v1=document.getElementById("pwd1").value;
+	var v2=document.getElementById("pwd2").value;
+	var vs=document.getElementById("spanPwd2");
+	vs.style.display="inline";
+	if(!v1==v2){
+		vs.innerText="两次输入密码不一致";
+		vs.style.color="red";
+		vs.focus();
+		return false;
+	}else{
+		vs.style.display="none";
+		return true;
+	}
+}
+function check(){
+	if(en()){
+		if(ep1()){
+			if(ep2()){
+				if(eb()){
+					return true;
+				}
+			}
+		}
+	}
+	return false;
+}
+</script>
+</head>
+<body>
+<form action="/regin" method="post">
+<table align="center">
+<tr><td>用户名</td><td><input type="text" id="user" name="user" onblur="en()" placeholder="账号" /><label id="spanName"></label></td></tr>
+<tr><td>密码</td><td><input type="password" id="pwd1" name="pwd" onblur="ep1()" placeholder="密码" /><label id="spanPwd1"></label></td></tr>
+<tr><td>密码确认</td><td><input type="password" id="pwd2" onblur="ep2()" placeholder="密码验证" /><label id="spanPwd2"></label></td></tr>
+<tr><td>邮箱</td><td><input type="text" id="email" name="email" onblur="eb()" placeholder="邮箱" /><label id="spanEmail"></label></td></tr>
+<tr><td align="center"><input type="submit" onclick="return check()" value="提交" /></td><td align="center"><input type="reset" /></td></tr>
+</table>
+</form>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>高级查询</title>
+<script type="text/javascript" src="/global/jquery.js"></script>
+<script>
+function nc(){
+	var temp=$("#name").clone(true);
+	temp.val("");
+	$("#nt").append(temp);	
+}
+function nnv(){
+	var temp=$("#nt").children();
+	temp.each(function(){
+		if($(this).val()==""){
+			$(this).remove();
+		}		
+	})
+	return true;
+}
+</script>
+</head>
+<body>
+<form th:action="@{/search}" method="post">
+<table border="1">
+<tr>
+	<td>书名</td>
+	<td id="nt"><input type="text" th:name="name" id="name" /></td>
+	<td><input type="button" value="添加" onclick="nc()" /></td>
+	</tr>
+<tr>
+	<td>作者</td>
+	<td><input type="text" th:name="author[]"/></td>
+</tr>
+<tr>
+	<td>出版社</td>
+	<td><input type="text" th:name="press[]"/></td>
+</tr>
+<tr>
+	<td>价格</td>
+	<td><input type="number" th:name="nb"/>
+	<input type="number" th:name="nu"/></td>
+</tr>
+<input type="submit" onclick="return nnv()"/>
+</table>
+</form>
+</body>
+</html>

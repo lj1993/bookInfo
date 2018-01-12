@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.book.Mapper.userMapper">
+	<resultMap id="userMap" type="com.book.Entity.user">
+		<id property="id" column="id"/>
+		<result property="name" column="name"/>
+		<result property="pwd" column="pwd"/>
+		<result property="email" column="email"/>
+		<collection property="sysRoles" ofType="com.book.Entity.sysRole">
+			<result property="name" column="name"/>
+		</collection>
+	</resultMap>
+	
+	<select id="findByUserName" parameterType="String" resultMap="userMap">
+	select u.*,
+	r.name
+	from userInfo u
+	left join user_roles ur on u.id=ur.user_id
+	left join sysroles r on ur.roles_id=r.id
+	where u.name=#{name}
+	</select>
+	
+	<insert id="addUser" parameterType="com.book.Entity.user" useGeneratedKeys="true" keyProperty="id">
+	insert into userInfo(name,pwd,email) values(#{name},#{pwd},#{email})
+	</insert>
+	
+	<insert id="addUserRoles" parameterType="String" useGeneratedKeys="true" keyProperty="id">
+	insert into user_roles(user_id,roles_id) 
+	values((select id from userInfo where name=#{username}) ,1)
+	</insert>
+</mapper>

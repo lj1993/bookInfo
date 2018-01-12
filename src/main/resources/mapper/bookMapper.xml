@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.book.Mapper.bookMapper">
+	<resultMap type="com.book.Entity.book" id="bookMap">
+		<id property="ID" column="ID"/>
+		<result property="name" column="name"/>
+		<result property="author" column="author"/>
+		<result property="press" column="press"/>
+		<result property="price" column="price"/>
+	</resultMap>
+	
+	<select id="getAll" resultMap="bookMap">
+		select * from bookinfo
+	</select>
+	
+	<select id="getBook" parameterType="int" resultMap="bookMap">
+		select * from bookinfo where ID=#{id}
+	</select>
+	
+	<update id="updateBook" parameterType="com.book.Entity.book">
+		update bookinfo set 
+		name=#{name},
+		author=#{author},
+		press=#{press},
+		price=#{price}
+		where ID=#{ID}
+	</update>
+	
+	<select id="search" resultMap="bookMap">
+		select * from bookinfo
+		<where>
+			<if test="name!=null">
+			 	and name in
+			 	<foreach item="item" index="index" collection="name"
+			 	open="(" separator="," close=")">
+			 		#{item}
+			 	</foreach>
+			</if>
+			<if test="author!=null">
+				and author in
+				<foreach item="item" index="index" collection="author"
+				open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test="press!=null">
+				and press in
+				<foreach item="item" index="index" collection="press"
+				open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test="nd!=0">
+				and price &gt; #{nd}
+			</if>
+			<if test="nu!=0">
+				and price &lt; #{nu}
+			</if>
+		</where>
+	</select>
+</mapper>

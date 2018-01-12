@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="EN" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+this is the home page
+<table border="1">
+<tr><td colspan="5"></td></tr>
+<thead><tr><th>编号</th><th>书名</th><th>作者</th><th>出版社</th><th>价格</th></tr></thead>
+<tr th:each="book:${books}">
+	<th scope="row"><a th:href="@{/toedit(id=${book.ID})}"><div th:text="${book.ID}"></div></a></th>
+	<th th:text="${book.name}"></th>
+	<th th:text="${book.author}"></th>
+	<th th:text="${book.press}"></th>
+	<th th:text="${book.price}"></th>
+</tr>
+</table>
+<a th:href="@{/tosearch}">高级查询</a>
+</body>
+</html>

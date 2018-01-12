@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>信息修改</title>
+</head>
+<body>
+<form th:action="@{/edit}" method="post" th:object="${book}">
+<table border="1">
+<tr><td>编号</td><td th:text="${ID}"></td></tr>
+<tr><td>书名</td><td><input type="text" th:field="*{name}"/></td></tr>
+<tr><td>作者</td><td><input type="text" th:field="*{author}"></td></tr>
+<tr><td>出版社</td><td><input type="text" th:field="*{press}"></td></tr>
+<tr><td>价格</td><td><input type="text" th:field="*{price}"></td></tr>
+</table>
+<input type="submit"/>
+</form>
+</body>
+</html>
